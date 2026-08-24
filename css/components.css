@@ -891,3 +891,73 @@
     bottom: 0.5rem;
   }
 }
+
+/* ==========================================================================
+   13. КНОПКА "НАВЕРХ" (SCROLL TO TOP)
+   
+   Круглая кнопка со стрелкой вверх.
+   Появляется после скролла на 500px (класс .visible добавляется через JS).
+   При уходе — исчезает с плавной анимацией.
+   ========================================================================== */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 90;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.2s ease;
+  box-shadow: 0 4px 15px rgba(0, 120, 174, 0.3);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-top-btn:hover {
+  background-color: var(--color-dark);
+  box-shadow: 0 6px 20px rgba(2, 64, 99, 0.4);
+}
+
+.scroll-top-btn:active {
+  transform: translateY(0) scale(0.95);
+}
+
+/* На мобильных — меньше и ближе к краю экрана */
+@media (max-width: 768px) {
+  .scroll-top-btn {
+    width: 44px;
+    height: 44px;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 20px;
+  }
+}
+
+/* Для пользователей с prefers-reduced-motion — мгновенное появление/исчезновение */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-top-btn {
+    transition: opacity 0.1s ease, visibility 0.1s ease;
+    transform: none;
+  }
+
+  .scroll-top-btn.visible {
+    transform: none;
+  }
+
+  .scroll-top-btn:active {
+    transform: none;
+  }
+}

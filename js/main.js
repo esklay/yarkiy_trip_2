@@ -406,4 +406,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+  /* ==========================================================================
+     11. КНОПКА "НАВЕРХ" (SCROLL TO TOP)
+     
+     Появляется после скролла на 500px вниз.
+     Плавно возвращает наверх при клике.
+     Скрывается/показывается с анимацией.
+     Учитывает prefers-reduced-motion для доступности.
+     ========================================================================== */
+  
+  // Создаём кнопку динамически (не нужно добавлять в HTML)
+  const scrollTopBtn = document.createElement('button');
+  scrollTopBtn.className = 'scroll-top-btn';
+  scrollTopBtn.setAttribute('aria-label', 'Наверх');
+  scrollTopBtn.setAttribute('type', 'button');
+  scrollTopBtn.innerHTML = '↑';
+  document.body.appendChild(scrollTopBtn);
+  
+  // Отслеживаем скролл с throttle для производительности
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) return;
+    
+    scrollTimeout = setTimeout(() => {
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+      scrollTimeout = null;
+    }, 100);
+  }, { passive: true });
+  
+  // Клик — плавная прокрутка наверх
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion ? 'auto' : 'smooth'
+    });
+  });
+
 });
