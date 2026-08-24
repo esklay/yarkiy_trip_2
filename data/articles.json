@@ -1,0 +1,89 @@
+[
+  {
+    "id": "1",
+    "url": "articles/article-1.html",
+    "date": {
+      "ru": "Октябрь 2026",
+      "en": "October 2026"
+    },
+    "title": {
+      "ru": "Тайна Серапеума",
+      "en": "The Mystery of the Serapeum"
+    },
+    "excerpt": {
+      "ru": "Как древние египтяне перемещали гранитные саркофаги весом в 70 тонн под землей, и почему официальная наука до сих пор не даёт точных ответов.",
+      "en": "How the ancient Egyptians moved 70-ton granite sarcophagi underground, and why mainstream science still cannot give definitive answers."
+    },
+    "category": {
+      "ru": "История Египта",
+      "en": "History of Egypt"
+    },
+    "image": "images/slider-sakkara.jpg",
+    "author": {
+      "ru": "Ярослава Белозор",
+      "en": "Yaroslava Belozor"
+    },
+    "content": {
+      "ru": "src-articles/article-1.html",
+      "en": "src-articles/en/article-1.html"
+    }
+  },
+  {
+    "id": "2",
+    "url": "articles/article-2.html",
+    "date": {
+      "ru": "Сентябрь 2026",
+      "en": "September 2026"
+    },
+    "title": {
+      "ru": "Храм Оракула Амона Ра",
+      "en": "The Oracle Temple of Amun-Ra"
+    },
+    "excerpt": {
+      "ru": "Зачем Александр Македонский прошел сотни километров через Сахару, чтобы услышать пророчество в затерянном оазисе Сива.",
+      "en": "Why Alexander the Great walked hundreds of kilometers across the Sahara to hear a prophecy in the lost Siwa Oasis."
+    },
+    "category": {
+      "ru": "Оазис Сива",
+      "en": "Siwa Oasis"
+    },
+    "image": "images/slider-8.jpg",
+    "author": {
+      "ru": "Ярослава Белозор",
+      "en": "Yaroslava Belozor"
+    },
+    "content": {
+      "ru": "src-articles/article-2.html",
+      "en": "src-articles/en/article-2.html"
+    }
+  },
+  {
+    "id": "3",
+    "url": "articles/article-3.html",
+    "date": {
+      "ru": "Август 2026",
+      "en": "August 2026"
+    },
+    "title": {
+      "ru": "Энергетика соленых озер",
+      "en": "The Energy of the Salt Lakes"
+    },
+    "excerpt": {
+      "ru": "Озера Сивы по уровню соли превосходят Мертвое море. Разбираемся, как они влияют на очищение физического и тонких тел.",
+      "en": "Siwa's lakes exceed the Dead Sea in salinity. We explore how they affect the cleansing of the physical and subtle bodies."
+    },
+    "category": {
+      "ru": "Практики и Детокс",
+      "en": "Practices & Detox"
+    },
+    "image": "images/slider-1.jpg",
+    "author": {
+      "ru": "Ярослава Белозор",
+      "en": "Yaroslava Belozor"
+    },
+    "content": {
+      "ru": "src-articles/article-3.html",
+      "en": "src-articles/en/article-3.html"
+    }
+  }
+]

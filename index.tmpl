@@ -1,0 +1,511 @@
+{{ define "index" }}
+<!DOCTYPE html>
+<html lang="{{ .Lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO и Метатеги -->
+  <title>{{ .Strings.site_title }}</title>
+  <meta name="description" content="{{ .Strings.site_description }}">
+  <meta property="og:title" content="{{ .Strings.og_title }}">
+  <meta property="og:image" content="{{ .AssetPath }}images/hero-siwa.jpg">
+  
+  <!-- hreflang для SEO: связываем языковые версии -->
+  <link rel="alternate" hreflang="ru" href="https://example.com/index.html">
+  <link rel="alternate" hreflang="en" href="https://example.com/en/index.html">
+  <link rel="alternate" hreflang="x-default" href="https://example.com/index.html">
+
+  <!-- Подключение шрифтов -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Подключение стилей -->
+  <link rel="stylesheet" href="{{ .AssetPath }}css/main.css">
+  <link rel="stylesheet" href="{{ .AssetPath }}css/components.css">
+
+  <link rel="icon" type="image/x-icon" href="{{ .AssetPath }}favicon.ico">
+
+  <!-- EmailJS SDK и инициализация из config.json -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("{{ .Config.Email.PublicKey }}");
+    })();
+  </script>
+</head>
+<body class="theme-light">
+
+  {{ template "header" . }}
+
+  <main>
+    <!-- 1. ПЕРВЫЙ ЭКРАН: СЛАЙДЕР (9 СЛАЙДОВ) -->
+    <section class="hero-slider" id="hero">
+      <div class="slider-track" id="heroTrack">
+        
+        <!-- Слайд 1: Общий -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-1.jpg" alt="{{ .Strings.hero_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_date }}</span>
+            <div class="caption-text">
+              <h1 class="caption-title">{{ .Strings.hero_title }}</h1>
+              <p class="caption-subtitle">{{ .Strings.hero_subtitle }}<br>{{ .Strings.hero_highlights }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_program }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 2: День 1 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-cairo.jpg" alt="{{ .Strings.hero_day1_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day1_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day1_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day1_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 3: День 2 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-3.jpg" alt="{{ .Strings.hero_day2_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day2_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day2_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day2_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 4: День 3 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-sakkara.jpg" alt="{{ .Strings.hero_day3_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day3_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day3_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day3_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 5: День 4 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-desert.jpg" alt="{{ .Strings.hero_day4_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day4_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day4_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day4_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 6: День 5 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-6.jpg" alt="{{ .Strings.hero_day5_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day5_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day5_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day5_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 7: День 6, часть 1 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-7.jpg" alt="{{ .Strings.hero_day6a_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day6a_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day6a_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day6a_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 8: День 6, часть 2 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-8.jpg" alt="{{ .Strings.hero_day6b_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day6b_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day6b_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day6b_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.hero_cta_watch }}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Слайд 9: День 7 -->
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/slider-9.jpg" alt="{{ .Strings.hero_day7_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.hero_day7_date }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.hero_day7_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.hero_day7_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#form" class="btn btn-hero-cta">{{ .Strings.hero_cta_book }}</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="slider-btn slider-btn-prev" aria-label="{{ .Strings.slider_prev }}">
+        <img src="{{ .AssetPath }}images/slideshow_arrow_left.png" alt="{{ .Strings.slider_prev }}">
+      </button>
+      <button class="slider-btn slider-btn-next" aria-label="{{ .Strings.slider_next }}">
+        <img src="{{ .AssetPath }}images/slideshow_arrow_right.png" alt="{{ .Strings.slider_next }}">
+      </button>
+
+      <div class="slider-dots" id="heroDots"></div>
+    </section>
+
+    <!-- 2. БЛОК «ПОЧЕМУ СИВА» -->
+    <section class="section about-siwa" id="about">
+      <div class="container">
+        <div class="text-column-center">
+          <h2 class="section-heading">{{ .Strings.about_heading }}</h2>
+          <p class="lead-text">{{ .Strings.about_lead }}</p>
+          <p>{{ .Strings.about_p1 }}</p>
+          <p>{{ .Strings.about_p2 }}</p>
+          <p>{{ .Strings.about_p3 }}</p>
+          
+          <blockquote class="editorial-quote">{{ .Strings.about_quote }}</blockquote>
+          
+          <p class="accent-text">{{ .Strings.about_accent }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. БЛОК «ЧТО ВАС ЖДЁТ» -->
+    <section class="section what-awaits bg-sand">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.features_heading }}</h2>
+        <div class="features-grid">
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_1 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_2 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_3 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_4 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_5 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_6 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_7 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_8 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_9 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_10 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_11 }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.feat_12 }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ПРОГРАММА ТУРА -->
+    <section class="section program-section" id="program">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.program_heading }}</h2>
+        <div class="accordion">
+          <div class="accordion-item active">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d1_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d1_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d1_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d2_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d2_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d2_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d3_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d3_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d3_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d4_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d4_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d4_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d5_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d5_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d5_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d6_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d6_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d6_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d7_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d7_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d7_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.prog_d8_label }}</span>
+              <span class="day-title">{{ .Strings.prog_d8_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.prog_d8_text }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. СТОИМОСТЬ И УСЛОВИЯ -->
+    <section class="section pricing-section bg-sand" id="pricing">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.pricing_heading }}</h2>
+        
+        <div class="price-cards-row">
+          <div class="price-card">
+            <div class="price-value">950$</div>
+            <div class="price-desc">{{ .Strings.pricing_double }}</div>
+          </div>
+          <div class="price-card">
+            <div class="price-value">1300$</div>
+            <div class="price-desc">{{ .Strings.pricing_single }}</div>
+          </div>
+          <div class="price-card info-card">
+            <div class="price-desc">{{ .Strings.pricing_info }}</div>
+          </div>
+        </div>
+
+        <div class="split-table">
+          <div class="table-column included-col">
+            <h3>{{ .Strings.pricing_included }}</h3>
+            <ul class="check-list">
+              <li>{{ .Strings.inc_transfers }}</li>
+              <li>{{ .Strings.inc_cairo }}</li>
+              <li>{{ .Strings.inc_siwa }}</li>
+              <li>{{ .Strings.inc_breakfast }}</li>
+              <li>{{ .Strings.inc_tickets }}</li>
+              <li>{{ .Strings.inc_safari }}</li>
+              <li>{{ .Strings.inc_dinner }}</li>
+              <li>{{ .Strings.inc_guide }}</li>
+            </ul>
+          </div>
+          <div class="table-column excluded-col">
+            <h3>{{ .Strings.pricing_excluded }}</h3>
+            <ul class="cross-list">
+              <li>{{ .Strings.exc_flights }}</li>
+              <li>{{ .Strings.exc_meals }}</li>
+              <li>{{ .Strings.exc_personal }}</li>
+              <li>{{ .Strings.exc_pottery }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. О ПРОВОДНИКЕ -->
+    <section class="section about-guide" id="guide">
+      <div class="container split-layout">
+        <div class="layout-image">
+          <div class="guide-slider slider" id="guideSlider">
+            <div class="slider-track" id="guideTrack">
+              <div class="slide">
+                <img src="{{ .AssetPath }}images/yaroslava-portrait-1.jpg" alt="{{ .Strings.guide_photo_1 }}">
+              </div>
+              <div class="slide">
+                <img src="{{ .AssetPath }}images/yaroslava-portrait-2.jpg" alt="{{ .Strings.guide_photo_2 }}">
+              </div>
+              <div class="slide">
+                <img src="{{ .AssetPath }}images/yaroslava-portrait-3.jpg" alt="{{ .Strings.guide_photo_3 }}">
+              </div>
+            </div>
+
+            <button class="slider-btn slider-btn-prev" aria-label="{{ .Strings.guide_prev }}">
+              <img src="{{ .AssetPath }}images/slideshow_arrow_left.png" alt="{{ .Strings.guide_prev }}">
+            </button>
+            <button class="slider-btn slider-btn-next" aria-label="{{ .Strings.guide_next }}">
+              <img src="{{ .AssetPath }}images/slideshow_arrow_right.png" alt="{{ .Strings.guide_next }}">
+            </button>
+
+            <div class="slider-dots" id="guideDots"></div>
+          </div>
+        </div>
+        <div class="layout-text">
+          <h2 class="section-heading">{{ .Strings.guide_heading }}</h2>
+          <h3 class="guide-name">{{ .Strings.guide_name }}</h3>
+          <p class="guide-role">{{ .Strings.guide_role }}</p>
+          <p>{{ .Strings.guide_text }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. БЛОК СО СТАТЬЯМИ -->
+    <section class="section articles-section bg-sand" id="articles-grid">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.articles_heading }}</h2>
+        
+        <div class="articles-grid">
+          {{ range .Articles }}
+          <a href="{{ $.RootPath }}{{ .URL }}" class="article-card">
+            <div class="article-card-image" style="height: 220px; overflow: hidden;">
+              <img src="{{ $.AssetPath }}{{ .Image }}" alt="{{ .Title.Get $.Lang }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="article-card-content" style="padding: 2rem; display: flex; flex-direction: column; flex-grow: 1;">
+              <span class="article-date">{{ .Date.Get $.Lang }} · {{ .Category.Get $.Lang }}</span>
+              <h3 class="article-title">{{ .Title.Get $.Lang }}</h3>
+              <p class="article-excerpt">{{ .Excerpt.Get $.Lang }}</p>
+              <span class="article-read-more">{{ $.Strings.articles_read }} &rarr;</span>
+            </div>
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. ФИНАЛЬНЫЙ БЛОК -->
+    <section class="section final-cta">
+      <div class="container text-center">
+        <h2 class="cta-heading">{{ .Strings.final_heading }}</h2>
+        <p class="cta-text">{{ .Strings.final_text }}</p>
+        <p class="cta-subtext">{{ .Strings.final_sub }}</p>
+        
+        <a href="#form" class="btn btn-orange-gold btn-large mt-4">{{ .Strings.final_cta }}</a>
+      </div>
+    </section>
+
+    <!-- 9. БЛОК ФОРМЫ ЗАЯВКИ -->
+    <section class="section bg-sand" id="form" style="border-top: 1px solid var(--color-border);">
+      <div class="container">
+        <div class="text-column-center">
+          <h2 class="section-heading">{{ .Strings.form_heading }}</h2>
+          <p style="text-align: center; margin-bottom: 2rem; color: var(--color-text); opacity: 0.85;">
+            {{ .Strings.form_intro }}
+          </p>
+          
+          <div class="messenger-buttons">
+            <a href="https://t.me/yarkiytrip" target="_blank" class="messenger-btn telegram">
+              <span class="icon">✈</span> Telegram
+            </a>
+            
+            <a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank" class="messenger-btn whatsapp">
+              <span class="icon">💬</span> WhatsApp
+            </a>
+            
+            <a href="https://www.instagram.com/yaroslavabelozor" target="_blank" class="messenger-btn instagram">
+              <span class="icon">📷</span> Instagram
+            </a>
+          </div>
+
+          <p style="text-align: center; margin-bottom: 1.5rem; color: var(--color-text); opacity: 0.7; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.1em;">{{ .Strings.form_or }}</p>
+          
+          <form id="bookingForm" 
+                data-service="{{ .Config.Email.ServiceId }}" 
+                data-template="{{ .Config.Email.TemplateId }}"
+                data-email="{{ .Config.Email.TargetEmail }}"
+                style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label for="name" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_name }}</label>
+              <input type="text" id="name" name="name" required 
+                     style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                     onfocus="this.style.borderColor='var(--color-primary)'" 
+                     onblur="this.style.borderColor='var(--color-border)'">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label for="phone" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_phone }}</label>
+              <input type="text" id="phone" name="phone" required 
+                     style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                     onfocus="this.style.borderColor='var(--color-primary)'" 
+                     onblur="this.style.borderColor='var(--color-border)'">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+              <label for="message" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_message }}</label>
+              <textarea id="message" name="message" rows="4" 
+                        style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; resize: vertical; transition: border-color 0.2s ease;"
+                        onfocus="this.style.borderColor='var(--color-primary)'" 
+                        onblur="this.style.borderColor='var(--color-border)'"></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn" class="btn btn-orange-gold btn-large" style="margin-top: 1rem; width: 100%; border: none; cursor: pointer;">
+              {{ .Strings.form_submit }}
+            </button>
+            
+            <p style="font-size: 9pt; color: var(--color-text); opacity: 0.6; text-align: center; margin-top: 1rem; margin-bottom: 0;">
+              {{ .Strings.form_policy }}
+            </p>
+
+            <div id="successMessage" style="display: none; text-align: center; padding: 1.5rem; background-color: var(--color-bg); border: 1px solid var(--color-primary); margin-top: 1rem;">
+              <p style="color: var(--color-primary); font-weight: bold; font-size: 12pt; margin: 0;">{{ .Strings.form_success_title }}</p>
+              <p style="font-size: 10pt; margin-top: 0.5rem;">{{ .Strings.form_success_text }}</p>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  {{ template "footer" . }}
+
+  <script src="{{ .AssetPath }}js/main.js"></script>
+  <script src="{{ .AssetPath }}js/slider.js"></script>
+  <script src="{{ .AssetPath }}js/i18n.js"></script>
+</body>
+</html>
+{{ end }}

@@ -1,0 +1,55 @@
+{{ define "footer" }}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      
+      <!-- Column 1: О туре -->
+      <div class="footer-column">
+        <h3 class="footer-heading">{{ .Strings.footer_about_tour }}</h3>
+        <ul class="footer-list">
+          <li><a href="{{ .RootPath }}index.html#about">{{ .Strings.footer_why_siwa }}</a></li>
+          <li><a href="{{ .RootPath }}index.html#program">{{ .Strings.footer_program_days }}</a></li>
+          <li><a href="{{ .RootPath }}index.html#pricing">{{ .Strings.footer_pricing_conditions }}</a></li>
+          <li><a href="{{ .RootPath }}index.html#form">{{ .Strings.footer_book_place }}</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 2: Полезная информация -->
+      <div class="footer-column">
+        <h3 class="footer-heading">{{ .Strings.footer_useful_info }}</h3>
+        <ul class="footer-list">
+          <li><a href="{{ .RootPath }}index.html#articles-grid">{{ .Strings.footer_articles_power }}</a></li>
+          <li><a href="#">{{ .Strings.footer_checklist }}</a></li>
+          <li><a href="#">{{ .Strings.footer_visa_docs }}</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: О проекте -->
+      <div class="footer-column">
+        <h3 class="footer-heading">{{ .Strings.footer_about_project }}</h3>
+        <ul class="footer-list">
+          <li><a href="{{ .RootPath }}index.html#guide">{{ .Strings.nav_guide }}</a></li>
+          <li><a href="{{ .RootPath }}flower-of-life.html">{{ .Strings.nav_retreat }}</a></li>
+          <li><a href="mailto:hello@yarkiytrip.com">{{ .Strings.footer_write_us }}</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Мы в соцсетях -->
+      <div class="footer-column">
+        <h3 class="footer-heading">{{ .Strings.footer_social }}</h3>
+        <ul class="footer-list">
+          <li><a href="https://t.me/yarkiytrip" target="_blank">{{ .Strings.footer_telegram_channel }}</a></li>
+          <li><a href="https://www.instagram.com/yaroslavabelozor" target="_blank">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@YaroslavaBelozor" target="_blank">YouTube</a></li>
+          <li><a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+
+    </div>
+    
+    <div class="footer-copyright">
+      <p>{{ .Strings.logo }} © 2026. {{ .Strings.footer_copyright }}</p>
+    </div>
+  </div>
+</footer>
+{{ end }}

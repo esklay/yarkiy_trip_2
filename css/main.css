@@ -1,0 +1,962 @@
+/* ==========================================================================
+   1. CSS ПЕРЕМЕННЫЕ (ГИБРИД: Современный Layout + Строгая палитра)
+   ========================================================================== */
+:root {
+  /* Палитра, адаптированная под тему Сивы */
+  --color-bg: #FFFFFF;             /* Чистый белый */
+  --color-bg-alt: #E2E6E7;         /* Светло-серый фон */
+  --color-text: #404041;           /* Темно-серый текст */
+  --color-text-light: #FFFFFF;     /* Белый текст */
+  
+  --color-primary: #0078AE;        /* Главный синий (меню, заголовки, акценты) */
+  --color-accent: #06C7FE;         /* Яркий циан (активные элементы, ховеры) */
+  --color-dark: #024063;           /* Темно-синий (ховер кнопок) */
+  --color-cta: #3B9ECC;            /* Цвет основных кнопок действия */
+  --color-border: #BAC5C8;         /* Строгие границы */
+
+  /* Типографика */
+  --font-heading: 'Cormorant Garamond', serif; /* Современный editorial для цитат */
+  --font-body: 'Inter', sans-serif;            /* Современный читаемый текст */
+  --font-hero: Arial, Helvetica, sans-serif;   /* Строгий гротеск для Hero и заголовков */
+  --font-ui: Arial, Helvetica, sans-serif;     /* Для интерфейсных элементов */
+
+  /* Настройки макета */
+  --container-width: 1200px;
+  --transition: 0.15s ease-out; /* Резкий, "технический" переход */
+}
+
+/* ==========================================================================
+   2. СБРОС И БАЗОВЫЕ НАСТРОЙКИ
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border-radius: 0; /* ГЛАВНОЕ ПРАВИЛО: Никаких скруглений */
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Компенсация фиксированной шапки (60px)
+     при любых якорных переходах: нативных, JS и scrollIntoView */
+  scroll-padding-top: 60px;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.5;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Блокировка прокрутки страницы при открытом мобильном меню */
+body.menu-open {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   2.1 СИСТЕМНАЯ ПОДСВЕТКА КАСАНИЙ (MOBILE)
+   
+   Убираем браузерную вспышку фона при тапе (-webkit-tap-highlight-color).
+   Свою обратную связь даём через цвет текста и линию ::after.
+   ========================================================================== */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ==========================================================================
+   3. ТИПОГРАФИКА
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-primary);
+}
+
+/* Заголовки секций: строгий стиль, увеличенный до 48px */
+.section-heading {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 48px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: -0.8px; /* Плотный трекинг */
+  line-height: 46px;
+  margin: 0 0 3rem 0;
+  text-align: center;
+  color: var(--color-primary);
+}
+
+p {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.lead-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  margin: 0 0 1rem 0;
+}
+
+.accent-text {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-primary);
+}
+
+.editorial-quote {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--color-text);
+  border-left: 4px solid var(--color-accent);
+  padding: 1rem 2rem 1rem 2rem; 
+  margin: 2rem 0;
+  line-height: 1.3;
+}
+
+/* ==========================================================================
+   4. СТРУКТУРНЫЕ КЛАССЫ (LAYOUT)
+   ========================================================================== */
+.container {
+  margin: 0 auto;
+  padding: 1rem 5%; 
+}
+
+.section {
+  padding: 3rem 0; 
+  border-bottom: 1px solid var(--color-border);
+}
+
+.text-center { text-align: center; }
+.text-column-center { max-width: 800px; margin: 0 auto; }
+.mt-4 { margin-top: 2rem; }
+
+.bg-sand { background-color: var(--color-bg-alt); }
+
+.theme-dark {
+  background-color: var(--color-text);
+  color: var(--color-text-light);
+}
+.theme-dark .section-heading, 
+.theme-dark h1, .theme-dark h2, .theme-dark h3 {
+  color: var(--color-text-light);
+}
+
+/* ==========================================================================
+   5. ШАПКА САЙТА (HEADER) - ПОЛУПРОЗРАЧНАЯ В НАЧАЛЕ, НЕПРОЗРАЧНАЯ ПРИ СКРОЛЛЕ
+   
+   ВАЖНО: навигация (.main-nav) вынесена из шапки в HTML (header.tmpl).
+   Пока nav была потомком header, backdrop-filter шторки обрезался
+   границами шапки (backdrop root) — blur работал только в полосе 60px.
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  
+  /* Полупрозрачный фон в начале (70% непрозрачности) */
+  background-color: rgba(0, 120, 174, 0.7);
+  
+  /* Стеклянный эффект — теперь безопасен, nav не потомок */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  
+  height: 60px;
+  box-sizing: border-box;
+  padding: 20px 5% 10px 5%;
+  
+  /* Без тени в начале */
+  box-shadow: none;
+  
+  /* Плавный переход при скролле */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Состояние при скролле (добавляется через JS) */
+.site-header.scrolled {
+  /* Полностью непрозрачный фон */
+  background-color: var(--color-primary);
+  
+  /* Тень для визуального отделения от контента */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  font-family: var(--font-hero);
+  font-size: 22.5pt;
+  line-height: 1;
+  letter-spacing: -0.4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--color-text-light);
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   5.1 НАВИГАЦИЯ - ЖИВЁТ ВНЕ ШАПКИ, ФИКСИРУЕТСЯ В ЕЁ ПОЛОСЕ СПРАВА
+   
+   На десктопе (>1024px): строка ссылок в полосе шапки, z-index 101.
+   На ≤1024px: превращается в шторку справа (см. секцию 11), z-index 105.
+   ========================================================================== */
+.main-nav {
+  position: fixed;
+  top: 0;
+  right: 5%;
+  height: 60px;
+  display: flex;
+  padding: 27px 0 3px 0; 
+  align-items: stretch;
+  gap: 0rem;
+  z-index: 101; /* На десктопе: чуть выше шапки (100), чтобы ссылки были видны */
+}
+
+.main-nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-family: var(--font-hero);
+  font-size: 12pt;
+  font-weight: bold;
+  letter-spacing: -0.1px;
+  padding: 0 1rem; 
+  border-bottom: 4px solid transparent;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.main-nav a:hover {
+  color: var(--color-accent);
+  border-bottom: 4px solid var(--color-accent);
+}
+
+/* Подсветка активного пункта меню (добавляется через JS) */
+.main-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-accent);
+  transition: opacity 0.3s ease;
+}
+
+/* ==========================================================================
+   5.2 БУРГЕР-КНОПКА (МОБИЛЬНОЕ МЕНЮ)
+   
+   Доступная кнопка с тач-зоной 44px (стандарт WCAG).
+   Три полоски превращаются в крестик при открытии меню.
+   ========================================================================== */
+.burger-btn {
+  display: none; /* Скрыта на десктопе, показывается в @media (max-width: 1024px) */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: -10px;
+  position: relative;
+  z-index: 110; /* Внутри stacking context шапки */
+}
+
+.burger-line {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: var(--color-text-light);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* Трансформация в крестик при открытом меню */
+.burger-btn.active .burger-line:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.burger-btn.active .burger-line:nth-child(2) {
+  opacity: 0;
+}
+.burger-btn.active .burger-line:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   5.3 ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА: DROPDOWN (МАСШТАБИРУЕМЫЙ)
+   
+   Кнопка .lang-toggle показывает текущий язык (RU / EN / ...).
+   По клику раскрывается список .lang-dropdown со всеми доступными языками.
+   Добавление нового языка требует только одной новой <li> в header.tmpl.
+   ========================================================================== */
+.lang-switch {
+  position: relative;
+  margin-left: 1.5rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: var(--font-ui);
+  font-size: 10pt;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  color: var(--color-text-light);
+}
+
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.4rem 0.6rem;
+  color: var(--color-text-light);
+  font-family: var(--font-ui);
+  font-size: 10pt;
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  transition: color var(--transition);
+  border-radius: 0 !important;
+}
+
+.lang-toggle:hover,
+.lang-toggle:focus-visible {
+  color: var(--color-accent);
+  outline: none;
+}
+
+.lang-current {
+  color: var(--color-text-light)
+}
+
+.lang-arrow {
+  font-size: 8pt;
+  color: var(--color-text-light);
+  transition: transform 0.25s ease, color var(--transition);
+}
+
+/* Стрелка поворачивается при раскрытом dropdown */
+.lang-switch.is-open .lang-arrow {
+  transform: rotate(180deg);
+}
+
+.lang-toggle:hover .lang-arrow {
+  color: var(--color-accent);
+}
+
+/* Dropdown-список */
+.lang-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 140px;
+  margin: 0;
+  padding: 0.5rem 0;
+  list-style: none;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 120;
+}
+
+/* Раскрытие по клику (класс .is-open ставится через JS) */
+.lang-switch.is-open .lang-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.lang-dropdown li {
+  margin: 0;
+}
+
+.lang-dropdown a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: var(--color-text);
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 10pt;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: none;
+  border-bottom: none;
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.lang-dropdown a:hover,
+.lang-dropdown a:focus-visible {
+  background-color: var(--color-bg-alt);
+  color: var(--color-primary);
+  outline: none;
+}
+
+/* ==========================================================================
+   6. ПЕРВЫЙ ЭКРАН (HERO SECTION)
+   ========================================================================== */
+.hero-section {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: url('../images/hero-siwa.jpg') center/cover no-repeat; 
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(2, 64, 99, 0.4); /* Темно-синий оверлей */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  text-align: center;
+}
+
+.hero-dates {
+  display: inline-block;
+  font-family: var(--font-hero);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  background-color: var(--color-accent);
+  color: var(--color-text-light);
+  padding: 5px 10px; 
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -0.8px;
+  line-height: 46px;
+  margin-bottom: 1rem;
+  color: var(--color-text-light);
+}
+
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  color: var(--color-text-light);
+  font-weight: 600;
+}
+
+.hero-highlights {
+  font-family: var(--font-hero);
+  font-size: 11px;
+  letter-spacing: 0;
+  margin: 0 auto 3rem;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  font-weight: 600;
+  border-top: 1px solid rgba(255,255,255,0.5);
+  border-bottom: 1px solid rgba(255,255,255,0.5);
+  padding: 10px 20px; 
+  display: inline-block;
+}
+
+/* ==========================================================================
+   7. КНОПКИ МЕССЕНДЖЕРОВ
+   ========================================================================== */
+.messenger-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.messenger-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  font-family: var(--font-ui);
+  font-size: 11pt;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 0 !important;
+  transition: all 0.25s ease-out;
+}
+
+.messenger-btn .icon {
+  font-size: 16pt;
+}
+
+.messenger-btn.telegram {
+  background-color: #0088cc;
+  border-color: #0088cc;
+}
+.messenger-btn.telegram:hover {
+  background-color: #ffffff;
+  color: #0088cc;
+}
+
+.messenger-btn.whatsapp {
+  background-color: #22a796; /* Стэиновский зелёный */
+  border-color: #22a796;
+}
+.messenger-btn.whatsapp:hover {
+  background-color: #ffffff;
+  color: #22a796;
+}
+
+.messenger-btn.instagram {
+  background-color: #e93254; /* Эксмо красный */
+  border-color: #e93254;
+}
+.messenger-btn.instagram:hover {
+  background-color: #ffffff;
+  color: #e93254;
+}
+
+/* ==========================================================================
+   8. ПОДВАЛ (FOOTER) - 4 колонки
+   ========================================================================== */
+.site-footer {
+  background-color: var(--color-bg-alt);
+  padding: 40px 0 30px;
+  margin-top: 0;
+  color: var(--color-text);
+}
+
+.footer-grid {
+  display: flex;
+  justify-content: space-between;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 200px;
+  padding-right: 20px;
+}
+
+.footer-heading {
+  font-family: var(--font-ui);
+  font-size: 13.5pt;
+  font-weight: 400;
+  color: var(--color-primary);
+  margin: 0 0 10px 0;
+  padding-bottom: 8px;
+  border-bottom: 4px solid #ffffff;
+}
+
+.footer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer-list li {
+  margin-bottom: 6px;
+}
+
+.footer-list a {
+  font-family: var(--font-ui);
+  font-size: 10pt;
+  font-weight: 400;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition), text-decoration var(--transition);
+}
+
+.footer-list a:hover {
+  color: var(--color-dark);
+  text-decoration: underline;
+}
+
+.footer-copyright {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-copyright p {
+  font-family: var(--font-ui);
+  font-size: 7.5pt;
+  font-weight: 400;
+  color: var(--color-text);
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+/* ==========================================================================
+   9. ДОСТУПНОСТЬ (ACCESSIBILITY)
+   ========================================================================== */
+/* Видимый фокус для клавиатурной навигации */
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   10. АНИМАЦИИ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ
+   
+   Класс .fade-in добавляется JS (main.js) ко всем секциям.
+   Класс .visible добавляется IntersectionObserver при появлении в viewport.
+   
+   Управление для пользователей с отключёнными анимациями — в секции 12.
+   ========================================================================== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Первая секция (hero) и шапка не должны анимироваться */
+.hero-section,
+.site-header {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none;
+}
+
+/* ==========================================================================
+   11. ПЛАНШЕТЫ И МОБИЛЬНЫЕ (MAX-WIDTH: 1024px): БУРГЕР-МЕНЮ
+   
+   Горизонтальная строка из 5 ссылок + логотип требует ~800px.
+   Ниже 1024px переключаемся на бургер и шторку.
+   ========================================================================== */
+@media (max-width: 1024px) {
+  /* Показываем бургер-кнопку */
+  .burger-btn {
+    display: flex;
+  }
+  
+  /* Защита от вспышек, выделения текста и double-tap zoom */
+  .main-nav a,
+  .burger-btn,
+  .lang-toggle {
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+  }
+  
+  /* ==========================================================================
+     ПОРЯДОК Z-INDEX НА ПЛАНШЕТАХ И МОБИЛЬНЫХ
+     
+     Шапка (106) > Шторка (105) > Остальной контент (0-2)
+     Бургер находится ВНУТРИ шапки (z-index 110 внутри stacking context шапки),
+     поэтому он автоматически рисуется поверх шторки.
+     
+     Это обеспечивает стабильное поведение:
+     - Шторка всегда выезжает/уезжает строго из-под шапки
+     - Бургер/крестик всегда виден и кликабелен
+     - Логотип в шапке остаётся видимым поверх шторки
+     ========================================================================== */
+  .site-header {
+    z-index: 106; /* Шапка ВСЕГДА над шторкой */
+  }
+  
+  /* ==========================================================================
+     ШТОРКА СПРАВА С BLUR
+     
+     Навигация вынесена из шапки в HTML — backdrop-filter шторки
+     размывает ВСЮ страницу целиком, без обрезания по границам шапки.
+     ========================================================================== */
+  .main-nav {
+    position: fixed;
+    top: 60px; /* Начинается строго под шапкой (высота шапки 60px) */
+    right: 0;
+    bottom: 0;
+    /* Плавная ширина: минимум 280px, идеально 80%, максимум 320px */
+    width: clamp(280px, 80%, 320px);
+    /* Высота от верха шторки (60px) до низа экрана */
+    height: calc(100dvh - 60px);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 1.5rem; /* Обычный padding, отступ сверху не нужен */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    /* Белый стеклянный фон */
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    /* Мягкая тень для белого фона */
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+    
+    /* GPU-анимация: скрыта за правым краем */
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 105; /* Ниже шапки (106), но выше остального контента */
+  }
+  
+  /* Открытое состояние */
+  .main-nav.open {
+    transform: translateX(0);
+  }
+  
+  /* Ссылки в мобильном меню */
+  .main-nav a {
+    position: relative;
+    display: block;
+    padding: 1.1rem 0.5rem;
+    font-size: 14pt;
+    /* Тёмно-синий текст на белом фоне (а не белый) */
+    color: var(--color-primary);
+    border-bottom: 1px solid rgba(0, 120, 174, 0.1);
+    transition: color 0.2s ease;
+  }
+  
+  .main-nav a:last-child {
+    border-bottom: none;
+  }
+  
+  /* Hover в мобильной версии: ТОЛЬКО смена цвета, без толстой границы */
+  .main-nav a:hover {
+    color: var(--color-accent);
+    border-bottom-color: rgba(0, 120, 174, 0.1); /* Явно сбрасываем десктопную границу */
+  }
+  
+  /* Простое выделение активного пункта: линия под текстом */
+  .main-nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    bottom: 0.3rem;
+    width: calc(100% - 1rem);
+    height: 2px;
+    background-color: var(--color-accent);
+  }
+
+  /* Убираем outline при фокусе на мобильных (tap не нуждается в нём) */
+  .main-nav a:focus-visible {
+    outline: none;
+  }
+  
+  /* ==========================================================================
+     DROPDOWN В МОБИЛЬНОЙ ШТОРКЕ
+     
+     Превращается в аккордеон: кнопка toggle на всю ширину,
+     список языков плавно раскрывается вниз.
+     ========================================================================== */
+  .lang-switch {
+    position: relative;
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+    width: 100%;
+    font-size: 14pt;
+  }
+  
+  .lang-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 1.1rem 0.5rem;
+    color: var(--color-primary);
+    font-size: 14pt;
+    border-bottom: 1px solid rgba(0, 120, 174, 0.1);
+  }
+  
+  .lang-toggle:hover,
+  .lang-toggle:focus-visible {
+    color: var(--color-accent);
+    background-color: transparent;
+  }
+  
+  .lang-current {
+    color: var(--color-accent);
+  }
+  
+  .lang-arrow {
+    font-size: 10pt;
+    color: var(--color-primary);
+  }
+  
+  .lang-toggle:hover .lang-arrow {
+    color: var(--color-accent);
+  }
+  
+  .lang-dropdown {
+    position: static;
+    top: auto;
+    right: auto;
+    min-width: auto;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .lang-switch.is-open .lang-dropdown {
+    max-height: 500px; /* Плавно раскрывается */
+  }
+  
+  .lang-dropdown li {
+    margin: 0;
+  }
+  
+  .lang-dropdown a {
+    display: block;
+    padding: 0.9rem 0.5rem 0.9rem 1.5rem;
+    color: var(--color-primary);
+    text-decoration: none;
+    font-size: 13pt;
+    border-bottom: 1px solid rgba(0, 120, 174, 0.1);
+    background-color: transparent;
+    transition: background-color var(--transition), color var(--transition);
+  }
+  
+  .lang-dropdown a:hover,
+  .lang-dropdown a:focus-visible {
+    background-color: rgba(0, 120, 174, 0.05);
+    color: var(--color-accent);
+    outline: none;
+  }
+}
+
+/* ==========================================================================
+   11.1 АДАПТИВНОСТЬ (MOBILE, MAX-WIDTH: 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .section { padding: 2rem 1.5rem; }
+  .container { padding: 1rem 1.5rem; }
+  
+  .hero-title { font-size: 32px; line-height: 34px; letter-spacing: -0.4px; }
+  .hero-dates { font-size: 10px; }
+  
+  .section-heading { 
+    font-size: 32px; 
+    line-height: 34px; 
+    letter-spacing: -0.4px; 
+  }
+  
+  .site-footer { padding: 2rem 1.5rem; }
+  .footer-grid {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .footer-column {
+    padding-right: 0;
+  }
+  
+  /* На мобильных анимация появления мягче (меньше смещение) */
+  .fade-in {
+    transform: translateY(10px);
+  }
+}
+
+/* ==========================================================================
+   12. УВАЖЕНИЕ К СИСТЕМНЫМ НАСТРОЙКАМ (PREFERS-REDUCED-MOTION)
+   
+   Для пользователей с вестибулярными расстройствами, эпилепсией, мигренями,
+   а также для агрессивных режимов Brave Shields.
+   
+   Анимации НЕ отключаются в JS — управление полностью через CSS.
+   Это позволяет анимациям корректно работать во всех браузерах.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  html {
+    scroll-behavior: auto;
+  }
+  
+  /* Мгновенное появление секций без движения */
+  .fade-in {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  /* Мгновенное открытие/закрытие шторки меню */
+  .main-nav {
+    transition: none !important;
+  }
+  
+  /* Бургер трансформируется мгновенно */
+  .burger-line {
+    transition: none !important;
+  }
+  
+  /* Dropdown открывается/закрывается мгновенно */
+  .lang-dropdown {
+    transition: none !important;
+  }
+  
+  .lang-arrow {
+    transition: none !important;
+  }
+  
+  /* Отключаем backdrop-filter (на некоторых системах вызывает мерцание) */
+  .site-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+  
+  .main-nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}

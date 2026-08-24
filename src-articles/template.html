@@ -1,0 +1,177 @@
+{{ define "article" }}
+<!DOCTYPE html>
+<html lang="{{ .Lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO и Метатеги -->
+  <title>{{ .Title }} | {{ .Strings.logo }} - {{ .Strings.article_meta_suffix }}</title>
+  <meta name="description" content="{{ .Excerpt }}">
+  {{ if eq .Lang "ru" }}
+    <link rel="canonical" href="https://yarkiytrip.com/{{ .URL }}">
+  {{ else }}
+    <link rel="canonical" href="https://yarkiytrip.com/{{ .Lang }}/{{ .URL }}">
+  {{ end }}
+  
+  <!-- hreflang: связываем языковые версии одной статьи -->
+  <link rel="alternate" hreflang="ru" href="https://yarkiytrip.com/{{ .URL }}">
+  <link rel="alternate" hreflang="en" href="https://yarkiytrip.com/en/{{ .URL }}">
+  <link rel="alternate" hreflang="x-default" href="https://yarkiytrip.com/{{ .URL }}">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ .Title }}">
+  <meta property="og:description" content="{{ .Excerpt }}">
+  <meta property="og:image" content="https://yarkiytrip.com/{{ .Image }}">
+  {{ if eq .Lang "ru" }}
+    <meta property="og:url" content="https://yarkiytrip.com/{{ .URL }}">
+  {{ else }}
+    <meta property="og:url" content="https://yarkiytrip.com/{{ .Lang }}/{{ .URL }}">
+  {{ end }}
+  <meta property="og:site_name" content="{{ .Strings.logo }}">
+  <meta property="og:locale" content="{{ if eq .Lang "ru" }}ru_RU{{ else }}en_US{{ end }}">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ .Title }}">
+  <meta name="twitter:description" content="{{ .Excerpt }}">
+  <meta name="twitter:image" content="https://yarkiytrip.com/{{ .Image }}">
+  
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ .Title }}",
+    "description": "{{ .Excerpt }}",
+    "image": "https://yarkiytrip.com/{{ .Image }}",
+    "datePublished": "{{ .Date }}",
+    "inLanguage": "{{ .Lang }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ .Author }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ .Strings.logo }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://yarkiytrip.com/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      {{ if eq .Lang "ru" }}
+        "@id": "https://yarkiytrip.com/{{ .URL }}"
+      {{ else }}
+        "@id": "https://yarkiytrip.com/{{ .Lang }}/{{ .URL }}"
+      {{ end }}
+    }
+  }
+  </script>
+
+  <!-- Шрифты -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="{{ .AssetPath }}css/main.css">
+  <link rel="stylesheet" href="{{ .AssetPath }}css/components.css">
+  <link rel="stylesheet" href="{{ .AssetPath }}css/articles.css">
+
+  <link rel="icon" type="image/x-icon" href="{{ .AssetPath }}favicon.ico">
+</head>
+<body class="theme-light">
+
+  {{ template "header" . }}
+
+  <main>
+    <header class="article-header">
+      <div class="container">
+        <div class="text-column-center">
+          <a href="{{ .RootPath }}index.html#articles-grid" class="back-link" aria-label="{{ .Strings.article_back_aria }}">&larr; {{ .Strings.article_back }}</a>
+          <div class="article-meta">{{ .Date }} · {{ .Category }}</div>
+          <h1 class="article-hero-title">{{ .Title }}</h1>
+          <div class="article-author">{{ .Strings.article_author_label }} <strong>{{ .Author }}</strong></div>
+        </div>
+      </div>
+    </header>
+
+    {{ if .Slides }}
+      {{ if eq (len .Slides) 1 }}
+      <!-- ============================================================
+           ОДИН СЛАЙД: показываем как обычную картинку без слайдера.
+           Без кнопок, точек и JS — чистое изображение 16:9.
+           ============================================================ -->
+      <div class="article-single-image">
+        <img src="{{ .AssetPath }}{{ index .Slides 0 }}" alt="{{ .Title }}" loading="lazy">
+      </div>
+      {{ else }}
+      <!-- ============================================================
+           СЛАЙДЕР СТАТЬИ (2+ слайдов, динамически от 2 до 12)
+           
+           Плашка с названием статьи — только на первом слайде.
+           ============================================================ -->
+      <section class="article-slider slider" id="articleSlider">
+        <div class="slider-track" id="articleTrack">
+          
+          {{ range $i, $slidePath := .Slides }}
+          <div class="slide">
+            <img src="{{ $.AssetPath }}{{ $slidePath }}" 
+                 alt="{{ if eq $i 0 }}{{ $.Title }}{{ end }}"
+                 loading="lazy"
+                 onerror="this.parentElement.style.display='none'">
+            
+            {{ if eq $i 0 }}
+            <!-- Плашка с названием статьи — только на ПЕРВОМ слайде -->
+            <div class="slide-caption">
+              <div class="caption-text">
+                <h2 class="caption-title">{{ $.Title }}</h2>
+              </div>
+            </div>
+            {{ end }}
+          </div>
+          {{ end }}
+
+        </div>
+
+        <button class="slider-btn slider-btn-prev" aria-label="{{ .Strings.slider_prev }}">
+          <img src="{{ .AssetPath }}images/slideshow_arrow_left.png" alt="{{ .Strings.slider_prev }}">
+        </button>
+        <button class="slider-btn slider-btn-next" aria-label="{{ .Strings.slider_next }}">
+          <img src="{{ .AssetPath }}images/slideshow_arrow_right.png" alt="{{ .Strings.slider_next }}">
+        </button>
+
+        <div class="slider-dots" id="articleDots"></div>
+      </section>
+      {{ end }}
+    {{ end }}
+
+    <article class="article-body" itemscope itemtype="https://schema.org/Article">
+      <div class="container">
+        <div class="text-column-center">
+          
+          {{ .Content }}
+
+          <div class="tour-cta-banner">
+            <h3>{{ .Strings.article_cta_heading }}</h3>
+            <p>{{ .Strings.article_cta_text }}</p>
+            <a href="{{ .RootPath }}index.html#program" class="btn btn-orange-gold">{{ .Strings.article_cta_button }}</a>
+          </div>
+
+        </div>
+      </div>
+    </article>
+  </main>
+
+  {{ template "footer" . }}
+
+  <!-- Скрипты (порядок важен: main.js → slider.js → i18n.js) -->
+  <script src="{{ .AssetPath }}js/main.js"></script>
+  <script src="{{ .AssetPath }}js/slider.js"></script>
+  <script src="{{ .AssetPath }}js/i18n.js"></script>
+</body>
+</html>
+{{ end }}

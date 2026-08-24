@@ -1,0 +1,406 @@
+{{ define "flower" }}
+<!DOCTYPE html>
+<html lang="{{ .Lang }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>{{ .Strings.flower_title }} | {{ .Strings.logo }}</title>
+  <meta name="description" content="{{ .Strings.flower_description }}">
+  <meta property="og:title" content="{{ .Strings.flower_title }}">
+  <meta property="og:image" content="{{ .AssetPath }}images/hero-flower-of-life.jpg">
+  
+  <link rel="alternate" hreflang="ru" href="https://yarkiytrip.com/flower-of-life.html">
+  <link rel="alternate" hreflang="en" href="https://yarkiytrip.com/en/flower-of-life.html">
+  <link rel="alternate" hreflang="x-default" href="https://yarkiytrip.com/flower-of-life.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ .AssetPath }}css/main.css">
+  <link rel="stylesheet" href="{{ .AssetPath }}css/components.css">
+
+  <link rel="icon" type="image/x-icon" href="{{ .AssetPath }}favicon.ico">
+
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("{{ .Config.Email.PublicKey }}");
+    })();
+  </script>
+</head>
+<body class="theme-light">
+
+  {{ template "header" . }}
+
+  <main>
+    <!-- 1. ПЕРВЫЙ ЭКРАН: СЛАЙДЕР (5 СЛАЙДОВ) -->
+    <section class="hero-slider" id="hero">
+      <div class="slider-track" id="flowerTrack">
+        
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/flower-slider-1.jpg" alt="{{ .Strings.flower_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.flower_date }}</span>
+            <div class="caption-text">
+              <h1 class="caption-title">{{ .Strings.flower_title }}</h1>
+              <p class="caption-subtitle">{{ .Strings.flower_subtitle }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#program" class="btn btn-hero-cta">{{ .Strings.flower_btn_program }}</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/flower-slider-2.jpg" alt="{{ .Strings.flower_slide2_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.flower_slide2_label }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.flower_slide2_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.flower_slide2_sub }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/flower-slider-3.jpg" alt="{{ .Strings.flower_slide3_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.flower_slide3_label }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.flower_slide3_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.flower_slide3_sub }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/flower-slider-4.jpg" alt="{{ .Strings.flower_slide4_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.flower_slide4_label }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.flower_slide4_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.flower_slide4_sub }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <img src="{{ .AssetPath }}images/flower-slider-5.jpg" alt="{{ .Strings.flower_slide5_title }}">
+          <div class="slide-caption">
+            <span class="caption-date">{{ .Strings.flower_slide5_label }}</span>
+            <div class="caption-text">
+              <h2 class="caption-title">{{ .Strings.flower_slide5_title }}</h2>
+              <p class="caption-subtitle">{{ .Strings.flower_slide5_sub }}</p>
+            </div>
+            <div class="caption-action">
+              <a href="#form" class="btn btn-hero-cta">{{ .Strings.flower_btn_register }}</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <button class="slider-btn slider-btn-prev" aria-label="{{ .Strings.slider_prev }}">
+        <img src="{{ .AssetPath }}images/slideshow_arrow_left.png" alt="{{ .Strings.slider_prev }}">
+      </button>
+      <button class="slider-btn slider-btn-next" aria-label="{{ .Strings.slider_next }}">
+        <img src="{{ .AssetPath }}images/slideshow_arrow_right.png" alt="{{ .Strings.slider_next }}">
+      </button>
+
+      <div class="slider-dots" id="flowerDots"></div>
+    </section>
+
+    <!-- 2. БЛОК «О РЕТРИТЕ» -->
+    <section class="section about-retreat" id="about">
+      <div class="container">
+        <div class="text-column-center">
+          <h2 class="section-heading">{{ .Strings.flower_about_h2 }}</h2>
+          <p class="lead-text">{{ .Strings.flower_about_lead }}</p>
+          <p>{{ .Strings.flower_about_p1 }}</p>
+          <p>{{ .Strings.flower_about_p2 }}</p>
+          <p>{{ .Strings.flower_about_p3 }}</p>
+          
+          <blockquote class="editorial-quote">{{ .Strings.flower_about_quote }}</blockquote>
+          
+          <p class="accent-text">{{ .Strings.flower_about_accent }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. БЛОК «ЧТО ВАС ЖДЁТ» -->
+    <section class="section what-awaits bg-sand">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.flower_gifts_h2 }}</h2>
+        <div class="features-grid">
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.flower_gift1_title }}: {{ .Strings.flower_gift1_text }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.flower_gift2_title }}: {{ .Strings.flower_gift2_text }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.flower_gift3_title }}: {{ .Strings.flower_gift3_text }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.flower_gift4_title }}: {{ .Strings.flower_gift4_text }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.flower_gift5_title }}: {{ .Strings.flower_gift5_text }}</div>
+          <div class="feature-card"><span class="icon">✔</span> {{ .Strings.flower_gift6_title }}: {{ .Strings.flower_gift6_text }}</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ПРОГРАММА РЕТРИТА -->
+    <section class="section program-section" id="program">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.flower_program_h2 }}</h2>
+        <div class="accordion">
+          <div class="accordion-item active">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day1_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day1_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day1_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day2_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day2_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day2_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day3_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day3_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day3_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day4_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day4_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day4_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day5_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day5_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day5_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day6_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day6_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day6_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day7_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day7_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day7_text }}</p>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-header">
+              <span class="day-label">{{ .Strings.flower_day8_label }}</span>
+              <span class="day-title">{{ .Strings.flower_day8_title }}</span>
+            </button>
+            <div class="accordion-content">
+              <p>{{ .Strings.flower_day8_text }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. СТОИМОСТЬ И УСЛОВИЯ -->
+    <section class="section pricing-section bg-sand" id="pricing">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.flower_invest_h2 }}</h2>
+        
+        <div class="price-cards-row">
+          <div class="price-card">
+            <div class="price-value">{{ .Strings.flower_price_value }}</div>
+            <div class="price-desc">{{ .Strings.flower_price_desc }}</div>
+          </div>
+          <div class="price-card info-card">
+            <div class="price-desc">{{ .Strings.flower_pricing_info | safeHTML }}</div>
+          </div>
+        </div>
+
+        <div class="split-table">
+          <div class="table-column included-col">
+            <h3>{{ .Strings.flower_included }}</h3>
+            <ul class="check-list">
+              <li>{{ .Strings.flower_inc1 }}</li>
+              <li>{{ .Strings.flower_inc2 }}</li>
+              <li>{{ .Strings.flower_inc3 }}</li>
+              <li>{{ .Strings.flower_inc4 }}</li>
+              <li>{{ .Strings.flower_inc5 }}</li>
+            </ul>
+          </div>
+          <div class="table-column excluded-col">
+            <h3>{{ .Strings.flower_excluded }}</h3>
+            <ul class="cross-list">
+              <li>{{ .Strings.flower_exc1 }}</li>
+              <li>{{ .Strings.flower_exc2 }}</li>
+              <li>{{ .Strings.flower_exc3 }}</li>
+              <li>{{ .Strings.flower_exc4 }}</li>
+              <li>{{ .Strings.flower_exc5 }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. О ПРОВОДНИКЕ (слайдер с 3 фотографиями) -->
+    <section class="section about-guide" id="guide">
+      <div class="container split-layout">
+        <div class="layout-image">
+          <div class="guide-slider slider" id="guideSlider">
+            <div class="slider-track" id="guideTrack">
+              <div class="slide">
+                <img src="{{ .AssetPath }}images/yaroslava-portrait-1.jpg" alt="{{ .Strings.guide_photo_1 }}">
+              </div>
+              <div class="slide">
+                <img src="{{ .AssetPath }}images/yaroslava-portrait-2.jpg" alt="{{ .Strings.guide_photo_2 }}">
+              </div>
+              <div class="slide">
+                <img src="{{ .AssetPath }}images/yaroslava-portrait-3.jpg" alt="{{ .Strings.guide_photo_3 }}">
+              </div>
+            </div>
+
+            <button class="slider-btn slider-btn-prev" aria-label="{{ .Strings.guide_prev }}">
+              <img src="{{ .AssetPath }}images/slideshow_arrow_left.png" alt="{{ .Strings.guide_prev }}">
+            </button>
+            <button class="slider-btn slider-btn-next" aria-label="{{ .Strings.guide_next }}">
+              <img src="{{ .AssetPath }}images/slideshow_arrow_right.png" alt="{{ .Strings.guide_next }}">
+            </button>
+
+            <div class="slider-dots" id="guideDots"></div>
+          </div>
+        </div>
+        <div class="layout-text">
+          <h2 class="section-heading">{{ .Strings.guide_heading }}</h2>
+          <h3 class="guide-name">{{ .Strings.guide_name }}</h3>
+          <p class="guide-role">{{ .Strings.flower_guide_role }}</p>
+          <p>{{ .Strings.flower_guide_text }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. ОТЗЫВЫ -->
+    <section class="section testimonials-section bg-sand">
+      <div class="container">
+        <h2 class="section-heading text-center">{{ .Strings.flower_reviews_h2 }}</h2>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <p class="testimonial-text">{{ .Strings.flower_rev1_text }}</p>
+            <p class="testimonial-author">{{ .Strings.flower_rev1_name }}</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">{{ .Strings.flower_rev2_text }}</p>
+            <p class="testimonial-author">{{ .Strings.flower_rev2_name }}</p>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">{{ .Strings.flower_rev3_text }}</p>
+            <p class="testimonial-author">{{ .Strings.flower_rev3_name }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. ФИНАЛЬНЫЙ БЛОК + ФОРМА (ОБЪЕДИНЕНЫ) -->
+    <section class="section final-cta bg-sand" id="form" style="border-top: 1px solid var(--color-border);">
+      <div class="container">
+        <div class="text-column-center">
+          <h2 class="cta-heading">{{ .Strings.flower_final_heading }}</h2>
+          <p class="cta-text">{{ .Strings.flower_final_text }}</p>
+          <p class="cta-subtext">{{ .Strings.flower_final_sub }}</p>
+        </div>
+        
+        <div class="messenger-buttons">
+          <a href="https://t.me/yarkiytrip" target="_blank" class="messenger-btn telegram">
+            <span class="icon">✈</span> Telegram
+          </a>
+          
+          <a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank" class="messenger-btn whatsapp">
+            <span class="icon">💬</span> WhatsApp
+          </a>
+          
+          <a href="https://www.instagram.com/yaroslavabelozor" target="_blank" class="messenger-btn instagram">
+            <span class="icon">📷</span> Instagram
+          </a>
+        </div>
+
+        <p style="text-align: center; margin-bottom: 1.5rem; color: var(--color-text); opacity: 0.7; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.1em;">{{ .Strings.form_or }}</p>
+        
+        <form id="bookingForm" 
+              data-service="{{ .Config.Email.ServiceId }}" 
+              data-template="{{ .Config.Email.TemplateId }}"
+              data-email="{{ .Config.Email.TargetEmail }}"
+              style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+          
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label for="name" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.flower_form_name }}</label>
+            <input type="text" id="name" name="name" required 
+                   style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                   onfocus="this.style.borderColor='var(--color-primary)'" 
+                   onblur="this.style.borderColor='var(--color-border)'">
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label for="phone" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.flower_form_phone }}</label>
+            <input type="text" id="phone" name="phone" required 
+                   style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                   onfocus="this.style.borderColor='var(--color-primary)'" 
+                   onblur="this.style.borderColor='var(--color-border)'">
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <label for="message" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.flower_form_message }}</label>
+            <textarea id="message" name="message" rows="4" 
+                      style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; resize: vertical; transition: border-color 0.2s ease;"
+                      onfocus="this.style.borderColor='var(--color-primary)'" 
+                      onblur="this.style.borderColor='var(--color-border)'"></textarea>
+          </div>
+
+          <button type="submit" id="submitBtn" class="btn btn-orange-gold btn-large" style="margin-top: 1rem; width: 100%; border: none; cursor: pointer;">
+            {{ .Strings.flower_form_submit }}
+          </button>
+          
+          <p style="font-size: 9pt; color: var(--color-text); opacity: 0.6; text-align: center; margin-top: 1rem; margin-bottom: 0;">
+            {{ .Strings.form_policy }}
+          </p>
+
+          <div id="successMessage" style="display: none; text-align: center; padding: 1.5rem; background-color: var(--color-bg); border: 1px solid var(--color-primary); margin-top: 1rem;">
+            <p style="color: var(--color-primary); font-weight: bold; font-size: 12pt; margin: 0;">{{ .Strings.form_success_title }}</p>
+            <p style="font-size: 10pt; margin-top: 0.5rem;">{{ .Strings.form_success_text }}</p>
+          </div>
+
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  {{ template "footer" . }}
+
+  <script src="{{ .AssetPath }}js/main.js"></script>
+  <script src="{{ .AssetPath }}js/slider.js"></script>
+  <script src="{{ .AssetPath }}js/i18n.js"></script>
+</body>
+</html>
+{{ end }}

@@ -1,0 +1,48 @@
+{{ define "header" }}
+<!-- Шапка сайта -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="{{ .RootPath }}index.html" class="logo">{{ .Strings.logo }}</a>
+
+    <!-- Бургер-кнопка (мобильная версия) -->
+    <button class="burger-btn" id="burgerBtn" type="button"
+            aria-label="{{ .Strings.menu_aria }}" aria-expanded="false" aria-controls="mainNav">
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
+  </div>
+</header>
+
+<!-- Навигация: вынесена из шапки -->
+<nav class="main-nav" id="mainNav" aria-label="Main menu">
+  <a href="{{ .RootPath }}index.html#about" data-section="about">{{ .Strings.nav_about }}</a>
+  <a href="{{ .RootPath }}index.html#program" data-section="program">{{ .Strings.nav_program }}</a>
+  <a href="{{ .RootPath }}index.html#pricing" data-section="pricing">{{ .Strings.nav_pricing }}</a>
+  <a href="{{ .RootPath }}index.html#guide" data-section="guide">{{ .Strings.nav_guide }}</a>
+  {{ if eq .Lang "ru" }}
+    <a href="{{ .RootPath }}flower-of-life.html">{{ .Strings.nav_retreat }}</a>
+  {{ else }}
+    <a href="{{ .RootPath }}../flower-of-life.html">{{ .Strings.nav_retreat }}</a>
+  {{ end }}
+
+  <!-- Переключатель языка: dropdown -->
+  <div class="lang-switch">
+    <button class="lang-toggle" type="button" 
+            aria-expanded="false" aria-haspopup="true" 
+            aria-label="{{ .Strings.lang_switch_label }}">
+      <span class="lang-current">
+        {{ if eq .Lang "ru" }}RU{{ else }}EN{{ end }}
+      </span>
+      <span class="lang-arrow" aria-hidden="true">▾</span>
+    </button>
+    <ul class="lang-dropdown" role="menu">
+      {{ if eq .Lang "ru" }}
+        <li role="none"><a href="{{ .AltLink }}" role="menuitem" data-lang="en" class="lang-link">English</a></li>
+      {{ else }}
+        <li role="none"><a href="{{ .AltLink }}" role="menuitem" data-lang="ru" class="lang-link">Русский</a></li>
+      {{ end }}
+    </ul>
+  </div>
+</nav>
+{{ end }}
