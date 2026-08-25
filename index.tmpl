@@ -325,7 +325,7 @@
             <div class="price-desc">{{ .Strings.pricing_single }}</div>
           </div>
           <div class="price-card info-card">
-            <div class="price-desc">{{ .Strings.pricing_info }}</div>
+            <div class="price-desc">{{ .Strings.pricing_info | safeHTML }}</div>
           </div>
         </div>
 
@@ -388,6 +388,22 @@
           <h3 class="guide-name">{{ .Strings.guide_name }}</h3>
           <p class="guide-role">{{ .Strings.guide_role }}</p>
           <p>{{ .Strings.guide_text }}</p>
+          
+          <!-- Счётчики статистики (анимируются при появлении в viewport) -->
+          <div class="stats-row">
+            <div class="stat-item">
+              <div class="stat-number" data-target="12">12</div>
+              <div class="stat-label">{{ .Strings.stat_years }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" data-target="500" data-suffix="+">500</div>
+              <div class="stat-label">{{ .Strings.stat_tourists }}</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number" data-target="15">15</div>
+              <div class="stat-label">{{ .Strings.stat_tours }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -457,4 +457,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+
+  /* ==========================================================================
+     12. АНИМИРОВАННЫЕ СЧЁТЧИКИ СТАТИСТИКИ (СОЦИАЛЬНОЕ ДОКАЗАТЕЛЬСТВО)
+     
+     Числа накручиваются от 0 до значения из data-target при входе в viewport.
+     Суффикс (например "+") задаётся через data-suffix и рендерится через
+     CSS ::after — поэтому JS не затирает его при обновлении textContent.
+     
+     Без JS (или без IntersectionObserver) в HTML уже лежат финальные
+     значения — счётчики деградируют gracefully.
+     При prefers-reduced-motion финальное значение показывается мгновенно.
+     ========================================================================== */
+  const statNumbers = document.querySelectorAll('.stat-number');
+  
+  if (statNumbers.length > 0 && 'IntersectionObserver' in window) {
+    
+    const animateCounter = (el) => {
+      const target = parseInt(el.getAttribute('data-target'), 10) || 0;
+      const duration = 2000; // 2 секунды накрутки
+      const startTime = performance.now();
+      
+      const step = (currentTime) => {
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        // easeOutCubic: быстрый старт, плавное замедление к концу
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(target * eased);
+        
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        }
+      };
+      
+      requestAnimationFrame(step);
+    };
+    
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (prefersReducedMotion) {
+            // Без анимации — сразу финальное значение
+            entry.target.textContent = entry.target.getAttribute('data-target');
+          } else {
+            animateCounter(entry.target);
+          }
+          statsObserver.unobserve(entry.target); // Анимируем только один раз
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    statNumbers.forEach(el => {
+      el.textContent = '0'; // Сброс перед анимацией
+      statsObserver.observe(el);
+    });
+  }
 });
