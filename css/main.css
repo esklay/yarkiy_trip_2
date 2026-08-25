@@ -494,6 +494,41 @@ p {
   display: inline-block;
 }
 
+
+/* ==========================================================================
+   6.1 TYPEWRITER-ЭФФЕКТ ДЛЯ HERO-ЗАГОЛОВКА
+   
+   Мигающий курсор после текста заголовка.
+   Класс .typewriter добавляется JS при начале печати.
+   ========================================================================== */
+.caption-title.typewriter {
+  position: relative;
+  display: inline-block;
+  min-height: 1.2em; /* Резервируем место, чтобы заголовок не "прыгал" */
+}
+
+.caption-title.typewriter::after {
+  content: '|';
+  display: inline-block;
+  margin-left: 4px;
+  color: #ffffff;
+  font-weight: 300;
+  animation: cursor-blink 0.8s infinite;
+}
+
+@keyframes cursor-blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* При prefers-reduced-motion курсор не мигает и не показывается */
+@media (prefers-reduced-motion: reduce) {
+  .caption-title.typewriter::after {
+    display: none;
+  }
+}
+
+
 /* ==========================================================================
    7. КНОПКИ МЕССЕНДЖЕРОВ
    ========================================================================== */

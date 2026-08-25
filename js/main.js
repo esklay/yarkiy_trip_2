@@ -511,4 +511,52 @@ document.addEventListener('DOMContentLoaded', () => {
       statsObserver.observe(el);
     });
   }
+
+
+  /* ==========================================================================
+     13. TYPEWRITER-ЭФФЕКТ ДЛЯ HERO-ЗАГОЛОВКА
+     
+     Заголовок первого слайда ("ТАИНСТВЕННАЯ СИВА") печатается посимвольно
+     с мигающим курсором. Эффект запускается только один раз при загрузке.
+     
+     Особенности:
+     - Применяется только к первому слайду (h1.caption-title)
+     - Учитывает prefers-reduced-motion (сразу показывает полный текст)
+     - Курсор исчезает через 2 секунды после завершения печати
+     - Не конфликтует с автопереключением слайдера
+     ========================================================================== */
+  const firstSlideTitle = document.querySelector('.slide:first-child h1.caption-title');
+  
+  if (firstSlideTitle) {
+    const fullText = firstSlideTitle.textContent.trim();
+    const charDelay = 80;       // Задержка между символами (мс)
+    const cursorFadeDelay = 2000; // Через сколько убрать курсор после печати (мс)
+    
+    // Если пользователь отключил анимации — показываем сразу полный текст без эффекта
+    if (prefersReducedMotion) {
+      firstSlideTitle.textContent = fullText;
+    } else {
+      // Очищаем текст и добавляем класс курсора
+      firstSlideTitle.textContent = '';
+      firstSlideTitle.classList.add('typewriter');
+      
+      let charIndex = 0;
+      
+      function typeWriter() {
+        if (charIndex < fullText.length) {
+          firstSlideTitle.textContent += fullText.charAt(charIndex);
+          charIndex++;
+          setTimeout(typeWriter, charDelay);
+        } else {
+          // Печать завершена — убираем курсор через задержку
+          setTimeout(() => {
+            firstSlideTitle.classList.remove('typewriter');
+          }, cursorFadeDelay);
+        }
+      }
+      
+      // Запускаем с небольшой задержкой, чтобы слайд успел отрендериться
+      setTimeout(typeWriter, 400);
+    }
+  }
 });
