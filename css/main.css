@@ -641,8 +641,10 @@ a:focus-visible {
 /* ==========================================================================
    10. АНИМАЦИИ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ
    
-   Класс .fade-in добавляется JS (main.js) ко всем секциям.
+   Класс .fade-in добавляется JS (main.js) ко всем секциям и карточкам.
    Класс .visible добавляется IntersectionObserver при появлении в viewport.
+   
+   Карточки имеют каскадный эффект через transition-delay (устанавливается в JS).
    
    Управление для пользователей с отключёнными анимациями — в секции 12.
    ========================================================================== */
@@ -654,6 +656,25 @@ a:focus-visible {
 
 .fade-in.visible {
   opacity: 1;
+  transform: translateY(0);
+}
+
+/* Секции появляются чуть медленнее (более плавное появление) */
+.section.fade-in {
+  transition-duration: 0.8s;
+}
+
+/* Карточки появляются быстрее и с меньшим смещением */
+.feature-card.fade-in,
+.price-card.fade-in,
+.testimonial-card.fade-in {
+  transition-duration: 0.5s;
+  transform: translateY(15px);
+}
+
+.feature-card.fade-in.visible,
+.price-card.fade-in.visible,
+.testimonial-card.fade-in.visible {
   transform: translateY(0);
 }
 
@@ -896,6 +917,12 @@ a:focus-visible {
   
   /* На мобильных анимация появления мягче (меньше смещение) */
   .fade-in {
+    transform: translateY(10px);
+  }
+  
+  .feature-card.fade-in,
+  .price-card.fade-in,
+  .testimonial-card.fade-in {
     transform: translateY(10px);
   }
 }

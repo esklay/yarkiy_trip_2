@@ -2,7 +2,7 @@
  * main.js - Основной скрипт для лендинга "Таинственная Сива"
  * Включает: Аккордеон, Плавную прокрутку, Эффект шапки, Подсветку активной секции,
  *           Обработку формы EmailJS, Анимации появления, Аналитику мессенджеров,
- *           Мобильное бургер-меню
+ *           Мобильное бургер-меню, Кнопку "Наверх"
  * (Слайдер вынесен в отдельный модуль: js/slider.js)
  */
 
@@ -250,6 +250,9 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ==========================================================================
      6. АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ
      
+     Секции и карточки плавно появляются снизу (fadeInUp).
+     Карточки имеют каскадный эффект - появляются друг за другом с задержкой.
+     
      ВАЖНО: НЕ отключаем через prefers-reduced-motion в JS!
      Управление для пользователей с отключёнными анимациями происходит в CSS:
      
@@ -283,6 +286,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.section').forEach(section => {
       section.classList.add('fade-in');
       observer.observe(section);
+    });
+
+    // Наблюдаем за карточками (с каскадным эффектом)
+    document.querySelectorAll('.feature-card, .price-card, .testimonial-card').forEach((card, index) => {
+      card.classList.add('fade-in');
+      // Добавляем задержку для каскадного эффекта (0.1s между карточками)
+      card.style.transitionDelay = `${index * 0.1}s`;
+      observer.observe(card);
     });
   }
 
@@ -405,7 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
 
   /* ==========================================================================
      11. КНОПКА "НАВЕРХ" (SCROLL TO TOP)
