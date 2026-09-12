@@ -147,7 +147,19 @@
   "final_cta": "Book a place on the tour",
 
   "form_heading": "Book a place on the tour",
-  "form_intro": "Choose a convenient way to contact us or fill out the form",
+  "form_intro": "Two ways to apply — choose the one that suits you",
+
+  "form_google_title": "Form with journey selection",
+  "form_google_sub": "Three questions — and I'll know which route suits you. Answers reach me directly.",
+  "form_google_note": "The form loads as you scroll to this section. If it doesn't appear —",
+  "form_google_note_link": "open it in a new tab",
+  "form_iframe_fallback": "Your browser does not support embedded frames. Please open the form using the link above.",
+
+  "form_divider": "or",
+
+  "form_quick_title": "Quick request",
+  "form_quick_sub": "If you'd rather not fill the form — message me or leave your contact.",
+
   "form_or": "or",
   "form_name": "Your name",
   "form_phone": "Phone or Email",
@@ -156,13 +168,6 @@
   "form_policy": "By clicking the button, you agree to the personal data processing policy.",
   "form_success_title": "Thank you! Your application has been sent successfully.",
   "form_success_text": "We will contact you shortly.",
-
-  "form_tabs_aria": "Application method",
-  "form_tab_quick": "Quick request",
-  "form_tab_google": "Form with tour choice",
-  "form_google_note": "The form loads below once the tab is opened. If it doesn't load —",
-  "form_google_note_link": "open it in a new tab",
-  "form_iframe_fallback": "Your browser does not support embedded frames. Please open the form using the link above.",
 
   "footer_about_tour": "About the Tour",
   "footer_useful_info": "Useful Information",
