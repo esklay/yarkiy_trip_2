@@ -2,7 +2,8 @@
  * main.js - Основной скрипт для лендинга "Таинственная Сива"
  * Включает: Аккордеон, Плавную прокрутку, Эффект шапки, Подсветку активной секции,
  *           Обработку формы EmailJS, Анимации появления, Аналитику мессенджеров,
- *           Мобильное бургер-меню, Кнопку "Наверх"
+ *           Мобильное бургер-меню, Кнопку "Наверх", Счётчики, Typewriter,
+ *           Вкладки способа заявки с ленивой загрузкой Google-формы
  * (Слайдер вынесен в отдельный модуль: js/slider.js)
  */
 
@@ -559,4 +560,63 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(typeWriter, 400);
     }
   }
+
+
+  /* ==========================================================================
+     14. ВКЛАДКИ СПОСОБА ЗАЯВКИ + ЛЕНИВАЯ ЗАГРУЗКА GOOGLE-ФОРМЫ
+     
+     Переключение панелей "Быстрая заявка" / "Анкета с выбором тура".
+     iframe Google-формы не имеет атрибута src (только data-src) — источник
+     подставляется при ПЕРВОМ открытии вкладки. Пока пользователь не выбрал
+     анкету, браузер не делает запросы к Google и не получает её куки.
+     
+     Полная поддержка ARIA: role="tablist", role="tab", role="tabpanel",
+     aria-selected, aria-controls, aria-labelledby — для скринридеров.
+     ========================================================================== */
+  const formTabs = document.querySelectorAll('.form-tab');
+  
+  if (formTabs.length > 0) {
+    formTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Снимаем active со всех вкладок
+        formTabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        
+        // Активируем текущую вкладку
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        
+        // Скрываем все панели
+        document.querySelectorAll('.form-tab-panel').forEach(panel => {
+          panel.classList.remove('active');
+        });
+        
+        // Показываем целевую панель
+        const targetPanelId = tab.dataset.panel;
+        const targetPanel = document.getElementById(targetPanelId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+        }
+        
+        // Ленивая загрузка Google-формы при первом открытии вкладки
+        if (targetPanelId === 'panel-google') {
+          const frame = document.getElementById('googleFormFrame');
+          if (frame && frame.dataset.src && !frame.getAttribute('src')) {
+            frame.setAttribute('src', frame.dataset.src);
+          }
+        }
+      });
+      
+      // Доступность: Enter/Space на вкладках
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          tab.click();
+        }
+      });
+    });
+  }
+
 });

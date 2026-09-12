@@ -157,6 +157,13 @@
   "form_success_title": "Thank you! Your application has been sent successfully.",
   "form_success_text": "We will contact you shortly.",
 
+  "form_tabs_aria": "Application method",
+  "form_tab_quick": "Quick request",
+  "form_tab_google": "Form with tour choice",
+  "form_google_note": "The form loads below once the tab is opened. If it doesn't load —",
+  "form_google_note_link": "open it in a new tab",
+  "form_iframe_fallback": "Your browser does not support embedded frames. Please open the form using the link above.",
+
   "footer_about_tour": "About the Tour",
   "footer_useful_info": "Useful Information",
   "footer_about_project": "About the Project",

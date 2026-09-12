@@ -517,67 +517,100 @@
           <p style="text-align: center; margin-bottom: 2rem; color: var(--color-text); opacity: 0.85;">
             Choose a convenient way to contact us or fill out the form
           </p>
+
           
-          <div class="messenger-buttons">
-            <a href="https://t.me/yarkiytrip" target="_blank" class="messenger-btn telegram">
-              <span class="icon">✈</span> Telegram
-            </a>
-            
-            <a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank" class="messenger-btn whatsapp">
-              <span class="icon">💬</span> WhatsApp
-            </a>
-            
-            <a href="https://www.instagram.com/yaroslavabelozor" target="_blank" class="messenger-btn instagram">
-              <span class="icon">📷</span> Instagram
-            </a>
+          <div class="form-tabs" role="tablist" aria-label="Application method">
+            <button class="form-tab active" id="tab-quick" type="button" role="tab"
+                    aria-selected="true" aria-controls="panel-quick" data-panel="panel-quick">
+              Quick request
+            </button>
+            <button class="form-tab" id="tab-google" type="button" role="tab"
+                    aria-selected="false" aria-controls="panel-google" data-panel="panel-google">
+              Form with tour choice
+            </button>
           </div>
 
-          <p style="text-align: center; margin-bottom: 1.5rem; color: var(--color-text); opacity: 0.7; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.1em;">or</p>
           
-          <form id="bookingForm" 
-                data-service="YOUR_SERVICE_ID" 
-                data-template="YOUR_TEMPLATE_ID"
-                data-email="your@email.com"
-                style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+          <div class="form-tab-panel active" id="panel-quick" role="tabpanel" aria-labelledby="tab-quick">
+            <div class="messenger-buttons">
+              <a href="https://t.me/yarkiytrip" target="_blank" class="messenger-btn telegram">
+                <span class="icon">✈</span> Telegram
+              </a>
+              
+              <a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank" class="messenger-btn whatsapp">
+                <span class="icon">💬</span> WhatsApp
+              </a>
+              
+              <a href="https://www.instagram.com/yaroslavabelozor" target="_blank" class="messenger-btn instagram">
+                <span class="icon">📷</span> Instagram
+              </a>
+            </div>
+
+            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--color-text); opacity: 0.7; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.1em;">or</p>
             
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label for="name" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">Your name</label>
-              <input type="text" id="name" name="name" required 
-                     style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
-                     onfocus="this.style.borderColor='var(--color-primary)'" 
-                     onblur="this.style.borderColor='var(--color-border)'">
-            </div>
+            <form id="bookingForm" 
+                  data-service="YOUR_SERVICE_ID" 
+                  data-template="YOUR_TEMPLATE_ID"
+                  data-email="your@email.com"
+                  style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="name" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">Your name</label>
+                <input type="text" id="name" name="name" required 
+                       style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                       onfocus="this.style.borderColor='var(--color-primary)'" 
+                       onblur="this.style.borderColor='var(--color-border)'">
+              </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label for="phone" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">Phone or Email</label>
-              <input type="text" id="phone" name="phone" required 
-                     style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
-                     onfocus="this.style.borderColor='var(--color-primary)'" 
-                     onblur="this.style.borderColor='var(--color-border)'">
-            </div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="phone" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">Phone or Email</label>
+                <input type="text" id="phone" name="phone" required 
+                       style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                       onfocus="this.style.borderColor='var(--color-primary)'" 
+                       onblur="this.style.borderColor='var(--color-border)'">
+              </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label for="message" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">Question or comment (optional)</label>
-              <textarea id="message" name="message" rows="4" 
-                        style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; resize: vertical; transition: border-color 0.2s ease;"
-                        onfocus="this.style.borderColor='var(--color-primary)'" 
-                        onblur="this.style.borderColor='var(--color-border)'"></textarea>
-            </div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="message" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">Question or comment (optional)</label>
+                <textarea id="message" name="message" rows="4" 
+                          style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; resize: vertical; transition: border-color 0.2s ease;"
+                          onfocus="this.style.borderColor='var(--color-primary)'" 
+                          onblur="this.style.borderColor='var(--color-border)'"></textarea>
+              </div>
 
-            <button type="submit" id="submitBtn" class="btn btn-orange-gold btn-large" style="margin-top: 1rem; width: 100%; border: none; cursor: pointer;">
-              Submit application
-            </button>
-            
-            <p style="font-size: 9pt; color: var(--color-text); opacity: 0.6; text-align: center; margin-top: 1rem; margin-bottom: 0;">
-              By clicking the button, you agree to the personal data processing policy.
+              <button type="submit" id="submitBtn" class="btn btn-orange-gold btn-large" style="margin-top: 1rem; width: 100%; border: none; cursor: pointer;">
+                Submit application
+              </button>
+              
+              <p style="font-size: 9pt; color: var(--color-text); opacity: 0.6; text-align: center; margin-top: 1rem; margin-bottom: 0;">
+                By clicking the button, you agree to the personal data processing policy.
+              </p>
+
+              <div id="successMessage" style="display: none; text-align: center; padding: 1.5rem; background-color: var(--color-bg); border: 1px solid var(--color-primary); margin-top: 1rem;">
+                <p style="color: var(--color-primary); font-weight: bold; font-size: 12pt; margin: 0;">Thank you! Your application has been sent successfully.</p>
+                <p style="font-size: 10pt; margin-top: 0.5rem;">We will contact you shortly.</p>
+              </div>
+
+            </form>
+          </div>
+
+          
+          <div class="form-tab-panel" id="panel-google" role="tabpanel" aria-labelledby="tab-google">
+            <p class="google-form-note">
+              The form loads below once the tab is opened. If it doesn&#39;t load —
+              <a href="https://forms.gle/CXsph5PjTS8qHbUV9" target="_blank" rel="noopener">open it in a new tab ↗</a>
             </p>
-
-            <div id="successMessage" style="display: none; text-align: center; padding: 1.5rem; background-color: var(--color-bg); border: 1px solid var(--color-primary); margin-top: 1rem;">
-              <p style="color: var(--color-primary); font-weight: bold; font-size: 12pt; margin: 0;">Thank you! Your application has been sent successfully.</p>
-              <p style="font-size: 10pt; margin-top: 0.5rem;">We will contact you shortly.</p>
+            <div class="google-form-wrap">
+              
+              <iframe id="googleFormFrame"
+                      data-src="https://docs.google.com/forms/d/e/1FAIpQLSfAuFdSRY6IKIk8V1ghic4Z3qPIsriULV77LGF5wgcNXhaHkA/viewform?embedded=true"
+                      title="Form with tour choice"
+                      loading="lazy">
+                Your browser does not support embedded frames. Please open the form using the link above.
+              </iframe>
             </div>
+          </div>
 
-          </form>
         </div>
       </div>
     </section>

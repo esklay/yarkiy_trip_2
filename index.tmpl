@@ -442,7 +442,7 @@
       </div>
     </section>
 
-    <!-- 9. БЛОК ФОРМЫ ЗАЯВКИ -->
+    <!-- 9. БЛОК ФОРМЫ ЗАЯВКИ (С ВКЛАДКАМИ: БЫСТРАЯ ЗАЯВКА / GOOGLE-АНКЕТА) -->
     <section class="section bg-sand" id="form" style="border-top: 1px solid var(--color-border);">
       <div class="container">
         <div class="text-column-center">
@@ -450,67 +450,100 @@
           <p style="text-align: center; margin-bottom: 2rem; color: var(--color-text); opacity: 0.85;">
             {{ .Strings.form_intro }}
           </p>
-          
-          <div class="messenger-buttons">
-            <a href="https://t.me/yarkiytrip" target="_blank" class="messenger-btn telegram">
-              <span class="icon">✈</span> Telegram
-            </a>
-            
-            <a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank" class="messenger-btn whatsapp">
-              <span class="icon">💬</span> WhatsApp
-            </a>
-            
-            <a href="https://www.instagram.com/yaroslavabelozor" target="_blank" class="messenger-btn instagram">
-              <span class="icon">📷</span> Instagram
-            </a>
+
+          <!-- Переключатель способа заявки -->
+          <div class="form-tabs" role="tablist" aria-label="{{ .Strings.form_tabs_aria }}">
+            <button class="form-tab active" id="tab-quick" type="button" role="tab"
+                    aria-selected="true" aria-controls="panel-quick" data-panel="panel-quick">
+              {{ .Strings.form_tab_quick }}
+            </button>
+            <button class="form-tab" id="tab-google" type="button" role="tab"
+                    aria-selected="false" aria-controls="panel-google" data-panel="panel-google">
+              {{ .Strings.form_tab_google }}
+            </button>
           </div>
 
-          <p style="text-align: center; margin-bottom: 1.5rem; color: var(--color-text); opacity: 0.7; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.1em;">{{ .Strings.form_or }}</p>
-          
-          <form id="bookingForm" 
-                data-service="{{ .Config.Email.ServiceId }}" 
-                data-template="{{ .Config.Email.TemplateId }}"
-                data-email="{{ .Config.Email.TargetEmail }}"
-                style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- ВКЛАДКА 1: Быстрая заявка (мессенджеры + EmailJS) -->
+          <div class="form-tab-panel active" id="panel-quick" role="tabpanel" aria-labelledby="tab-quick">
+            <div class="messenger-buttons">
+              <a href="https://t.me/yarkiytrip" target="_blank" class="messenger-btn telegram">
+                <span class="icon">✈</span> Telegram
+              </a>
+              
+              <a href="https://wa.me/message/325I7FHPCDEVO1" target="_blank" class="messenger-btn whatsapp">
+                <span class="icon">💬</span> WhatsApp
+              </a>
+              
+              <a href="https://www.instagram.com/yaroslavabelozor" target="_blank" class="messenger-btn instagram">
+                <span class="icon">📷</span> Instagram
+              </a>
+            </div>
+
+            <p style="text-align: center; margin-bottom: 1.5rem; color: var(--color-text); opacity: 0.7; font-size: 10pt; text-transform: uppercase; letter-spacing: 0.1em;">{{ .Strings.form_or }}</p>
             
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label for="name" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_name }}</label>
-              <input type="text" id="name" name="name" required 
-                     style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
-                     onfocus="this.style.borderColor='var(--color-primary)'" 
-                     onblur="this.style.borderColor='var(--color-border)'">
-            </div>
+            <form id="bookingForm" 
+                  data-service="{{ .Config.Email.ServiceId }}" 
+                  data-template="{{ .Config.Email.TemplateId }}"
+                  data-email="{{ .Config.Email.TargetEmail }}"
+                  style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 1.5rem;">
+              
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="name" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_name }}</label>
+                <input type="text" id="name" name="name" required 
+                       style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                       onfocus="this.style.borderColor='var(--color-primary)'" 
+                       onblur="this.style.borderColor='var(--color-border)'">
+              </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label for="phone" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_phone }}</label>
-              <input type="text" id="phone" name="phone" required 
-                     style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
-                     onfocus="this.style.borderColor='var(--color-primary)'" 
-                     onblur="this.style.borderColor='var(--color-border)'">
-            </div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="phone" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_phone }}</label>
+                <input type="text" id="phone" name="phone" required 
+                       style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; transition: border-color 0.2s ease;"
+                       onfocus="this.style.borderColor='var(--color-primary)'" 
+                       onblur="this.style.borderColor='var(--color-border)'">
+              </div>
 
-            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
-              <label for="message" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_message }}</label>
-              <textarea id="message" name="message" rows="4" 
-                        style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; resize: vertical; transition: border-color 0.2s ease;"
-                        onfocus="this.style.borderColor='var(--color-primary)'" 
-                        onblur="this.style.borderColor='var(--color-border)'"></textarea>
-            </div>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label for="message" style="font-family: var(--font-ui); font-size: 11pt; font-weight: bold; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em;">{{ .Strings.form_message }}</label>
+                <textarea id="message" name="message" rows="4" 
+                          style="padding: 0.8rem 1rem; border: 1px solid var(--color-border); background-color: var(--color-bg); color: var(--color-text); font-family: var(--font-ui); font-size: 12pt; border-radius: 0 !important; outline: none; resize: vertical; transition: border-color 0.2s ease;"
+                          onfocus="this.style.borderColor='var(--color-primary)'" 
+                          onblur="this.style.borderColor='var(--color-border)'"></textarea>
+              </div>
 
-            <button type="submit" id="submitBtn" class="btn btn-orange-gold btn-large" style="margin-top: 1rem; width: 100%; border: none; cursor: pointer;">
-              {{ .Strings.form_submit }}
-            </button>
-            
-            <p style="font-size: 9pt; color: var(--color-text); opacity: 0.6; text-align: center; margin-top: 1rem; margin-bottom: 0;">
-              {{ .Strings.form_policy }}
+              <button type="submit" id="submitBtn" class="btn btn-orange-gold btn-large" style="margin-top: 1rem; width: 100%; border: none; cursor: pointer;">
+                {{ .Strings.form_submit }}
+              </button>
+              
+              <p style="font-size: 9pt; color: var(--color-text); opacity: 0.6; text-align: center; margin-top: 1rem; margin-bottom: 0;">
+                {{ .Strings.form_policy }}
+              </p>
+
+              <div id="successMessage" style="display: none; text-align: center; padding: 1.5rem; background-color: var(--color-bg); border: 1px solid var(--color-primary); margin-top: 1rem;">
+                <p style="color: var(--color-primary); font-weight: bold; font-size: 12pt; margin: 0;">{{ .Strings.form_success_title }}</p>
+                <p style="font-size: 10pt; margin-top: 0.5rem;">{{ .Strings.form_success_text }}</p>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- ВКЛАДКА 2: Google-анкета (iframe грузится только при первом открытии) -->
+          <div class="form-tab-panel" id="panel-google" role="tabpanel" aria-labelledby="tab-google">
+            <p class="google-form-note">
+              {{ .Strings.form_google_note }}
+              <a href="https://forms.gle/CXsph5PjTS8qHbUV9" target="_blank" rel="noopener">{{ .Strings.form_google_note_link }} ↗</a>
             </p>
-
-            <div id="successMessage" style="display: none; text-align: center; padding: 1.5rem; background-color: var(--color-bg); border: 1px solid var(--color-primary); margin-top: 1rem;">
-              <p style="color: var(--color-primary); font-weight: bold; font-size: 12pt; margin: 0;">{{ .Strings.form_success_title }}</p>
-              <p style="font-size: 10pt; margin-top: 0.5rem;">{{ .Strings.form_success_text }}</p>
+            <div class="google-form-wrap">
+              <!-- Вставить сюда полный embed-URL (инструкция ниже). Атрибут src НЕ ставим — только data-src -->
+              <iframe id="googleFormFrame"
+                      data-src="https://docs.google.com/forms/d/e/1FAIpQLSfAuFdSRY6IKIk8V1ghic4Z3qPIsriULV77LGF5wgcNXhaHkA/viewform?embedded=true"
+                      title="{{ .Strings.form_tab_google }}"
+                      loading="lazy">
+                {{ .Strings.form_iframe_fallback }}
+              </iframe>
             </div>
+          </div>
 
-          </form>
         </div>
       </div>
     </section>
