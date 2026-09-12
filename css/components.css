@@ -1043,11 +1043,10 @@
 
 .form-block-sub {
   text-align: center;
-  font-size: 10pt;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--color-text);
   opacity: 0.8;
-  max-width: 560px;
   margin: 0 auto 1.5rem 0;
 }
 
