@@ -461,7 +461,7 @@
           <div class="google-form-wrap">
             <!-- src НЕ ставим: его подставит JS при доскролле до блока (ленивая загрузка) -->
             <iframe id="googleFormFrame"
-                    data-src="https://docs.google.com/forms/d/e/1FAIpQLSfAuFdSRY6IKIk8V1ghic4Z3qPIsriULV77LGF5wgcNXhaHkA/viewform?embedded=true"
+                    data-src="https://docs.google.com/forms/d/e/1FAIpQLSfAuFdSRY6IKIk8V1ghic4Z3qPIsriULV77LGF5wgcNXhaHkA/viewform?embedded=true&hl={{ .Lang }}"
                     title="{{ .Strings.form_google_title }}"
                     loading="lazy">
               {{ .Strings.form_iframe_fallback }}
